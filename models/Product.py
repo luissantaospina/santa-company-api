@@ -61,3 +61,24 @@ class UserSchema(SQLAlchemyAutoSchema):
     email = fields.String()
     created_at = fields.DateTime()
     update_at = fields.DateTime()
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    update_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class RoleSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Role
+        include_relationships = True
+        include_fk = True
+        load_instance = True
+
+    id = fields.Integer()
+    name = fields.String()
+    created_at = fields.DateTime()
+    update_at = fields.DateTime()
