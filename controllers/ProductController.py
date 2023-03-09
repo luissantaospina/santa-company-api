@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from models.Product import Product, ProductSchema
+from models.models import Product, ProductSchema
 from flask_jwt_extended import jwt_required
 from database.db import db
 from flask import request

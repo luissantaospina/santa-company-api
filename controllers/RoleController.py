@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from models.Product import Role, RoleSchema
+from models.models import Role, RoleSchema
 from flask_jwt_extended import jwt_required
 from database.db import db
 from flask import request

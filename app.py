@@ -3,9 +3,11 @@ from config import DevelopmentConfig
 from flask_restful import Api
 from controllers.ProductController import ProductsController, ProductController
 from controllers.RoleController import RolesController, RoleController
+from controllers.ClientController import ClientsController, ClientController
+from controllers.OrderController import OrdersController, OrderController
 from controllers.AuthController import AuthController
 from helpers.Errors import Errors
-from models.Product import db
+from models.models import db
 from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
@@ -25,6 +27,12 @@ api.add_resource(ProductController, '/api/v1/auth/product/<int:id_product>')
 
 api.add_resource(RolesController, '/api/v1/auth/roles')
 api.add_resource(RoleController, '/api/v1/auth/role/<int:id_role>')
+
+api.add_resource(ClientsController, '/api/v1/auth/clients')
+api.add_resource(ClientController, '/api/v1/auth/client/<int:id_client>')
+
+api.add_resource(OrdersController, '/api/v1/auth/orders')
+api.add_resource(OrderController, '/api/v1/auth/order/<int:id_order>')
 
 
 jwt = JWTManager(app)
