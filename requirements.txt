@@ -1,0 +1,7 @@
+flask
+flask-cors
+psycopg2
+python-decouple
+python-dotenv
+flask-restful
+flask-sqlalchemy
