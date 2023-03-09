@@ -11,6 +11,7 @@ class Config:
         config('PGSQL_DATABASE')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = True
+    JWT_ACCESS_TOKEN_EXPIRES = 1800
 
 
 class DevelopmentConfig(Config):
