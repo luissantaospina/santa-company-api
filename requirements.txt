@@ -5,3 +5,6 @@ python-decouple
 python-dotenv
 flask-restful
 flask-sqlalchemy
+marshmallow-sqlalchemy
+marshmallow
+flask-jwt-extended
