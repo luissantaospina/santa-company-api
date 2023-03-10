@@ -2,7 +2,7 @@ from flask_restful import Resource
 from models.models import User
 from flask import request
 from flask_jwt_extended import create_access_token
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
 
 class AuthController(Resource):

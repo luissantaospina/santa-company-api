@@ -5,6 +5,7 @@ from controllers.ProductController import ProductsController, ProductController
 from controllers.RoleController import RolesController, RoleController
 from controllers.ClientController import ClientsController, ClientController
 from controllers.OrderController import OrdersController, OrderController
+from controllers.UserController import UsersController, UserController
 from controllers.AuthController import AuthController
 from helpers.Errors import Errors
 from models.models import db
@@ -30,6 +31,9 @@ api.add_resource(RoleController, '/api/v1/auth/role/<int:id_role>')
 
 api.add_resource(ClientsController, '/api/v1/auth/clients')
 api.add_resource(ClientController, '/api/v1/auth/client/<int:id_client>')
+
+api.add_resource(UsersController, '/api/v1/auth/users')
+api.add_resource(UserController, '/api/v1/auth/user/<int:id_user>')
 
 api.add_resource(OrdersController, '/api/v1/auth/orders')
 api.add_resource(OrderController, '/api/v1/auth/order/<int:id_order>')
