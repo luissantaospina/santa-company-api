@@ -5,6 +5,24 @@ from datetime import datetime
 
 db = db
 
+permission_roles = db.Table(
+    'permission_roles',
+    db.Column('id', db.Integer, primary_key=True, autoincrement=True, nullable=False),
+    db.Column('permission_id', db.Integer, db.ForeignKey('permissions.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id')),
+    db.Column('created_at', db.DateTime, default=datetime.utcnow),
+    db.Column('updated_at', db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+)
+
+
+class Permission(db.Model):
+    __tablename__ = 'permissions'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    roles = db.relationship('Role', secondary='permission_roles', back_populates='permissions')
+
 
 class Product(db.Model):
     __tablename__ = 'products'
@@ -17,7 +35,17 @@ class Product(db.Model):
     name = db.Column(db.String(50), nullable=False)
     price = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    update_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    users = db.relationship('User', backref='role', lazy=True, viewonly=True)
+    permissions = db.relationship('Permission', secondary=permission_roles, back_populates='roles')
 
 
 class User(db.Model):
@@ -28,16 +56,7 @@ class User(db.Model):
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    update_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    name = db.Column(db.String(50), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    update_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    users = db.relationship('User', backref='role', lazy=True, viewonly=True)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
 class Client(db.Model):
@@ -47,7 +66,7 @@ class Client(db.Model):
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    update_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     orders = db.relationship('Order', backref='client', lazy=True, viewonly=True)
 
 
@@ -59,7 +78,7 @@ class Order(db.Model):
     date_purchase = db.Column(db.DateTime, nullable=False)
     price = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    update_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
 class ProductSchema(SQLAlchemyAutoSchema):
@@ -78,7 +97,7 @@ class ProductSchema(SQLAlchemyAutoSchema):
     name = fields.String()
     price = fields.Float()
     created_at = fields.DateTime()
-    update_at = fields.DateTime()
+    updated_at = fields.DateTime()
 
 
 class UserSchema(SQLAlchemyAutoSchema):
@@ -92,7 +111,7 @@ class UserSchema(SQLAlchemyAutoSchema):
     name = fields.String()
     email = fields.String()
     created_at = fields.DateTime()
-    update_at = fields.DateTime()
+    updated_at = fields.DateTime()
 
 
 class RoleSchema(SQLAlchemyAutoSchema):
@@ -105,7 +124,7 @@ class RoleSchema(SQLAlchemyAutoSchema):
     id = fields.Integer()
     name = fields.String()
     created_at = fields.DateTime()
-    update_at = fields.DateTime()
+    updated_at = fields.DateTime()
 
 
 class OrderSchema(SQLAlchemyAutoSchema):
@@ -120,7 +139,7 @@ class OrderSchema(SQLAlchemyAutoSchema):
     date_purchase = fields.DateTime()
     price = fields.Float()
     created_at = fields.DateTime()
-    update_at = fields.DateTime()
+    updated_at = fields.DateTime()
 
 
 class ClientSchema(SQLAlchemyAutoSchema):
@@ -134,4 +153,17 @@ class ClientSchema(SQLAlchemyAutoSchema):
     name = fields.String()
     email = fields.String()
     created_at = fields.DateTime()
-    update_at = fields.DateTime()
+    updated_at = fields.DateTime()
+
+
+class PermissionSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Permission
+        include_relationships = True
+        include_fk = True
+        load_instance = True
+
+    id = fields.Integer()
+    name = fields.String()
+    created_at = fields.DateTime()
+    updated_at = fields.DateTime()
