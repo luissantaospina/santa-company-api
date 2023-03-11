@@ -10,6 +10,7 @@ from controllers.AuthController import AuthController
 from helpers.Errors import Errors
 from models.models import db
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 app = Flask(__name__)
 app_context = app.app_context()
@@ -19,7 +20,9 @@ app.config.from_object(DevelopmentConfig)
 db.init_app(app)
 db.create_all()
 
+
 api = Api(app)
+CORS(app)
 
 api.add_resource(AuthController, '/api/v1/auth/login')
 
