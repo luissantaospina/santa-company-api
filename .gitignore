@@ -1,0 +1,31 @@
+# JetBrains IDE files
+.idea/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+venv/
+env/
+env.bak/
+ENV/
+env.tmp/
+
+# Other JetBrains files
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# SQLite database files
+*.db
+*.db-journal
